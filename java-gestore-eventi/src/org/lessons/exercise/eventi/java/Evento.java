@@ -32,7 +32,7 @@ public class Evento {
 
 	public void setData(LocalDate data) throws Exception {
 		if (data.isBefore(LocalDate.now())) {
-			throw new Exception("La data inserita non è valida");
+			throw new Exception("La data non è valida");
 		}
 		this.data = data;
 	}
@@ -45,21 +45,25 @@ public class Evento {
 		return postiPrenotati;
 	}
 
+	public int getPostiDisponibili() {
+		return getPostiTotale() - getPostiPrenotati();
+	}
+
 	public void prenota() throws Exception {
 		if (postiPrenotati == postiTotale || data.isBefore(LocalDate.now())) {
-			throw new Exception("Non è più possibile partecipare all'evento");
+			throw new Exception("Non è possibile partecipare all'evento");
 		}
 		postiPrenotati++;
 	}
 
 	public void disdici() throws Exception {
 		if (postiPrenotati == 0 || data.isBefore(LocalDate.now())) {
-			throw new Exception("Non è più possibile disdire la prenotazione all'evento");
+			throw new Exception("Non è possibile disdire la prenotazione");
 		}
 		postiPrenotati--;
 	}
 
-	private String getDataFormattata() {
+	protected String getDataFormattata() {
 		return data.getDayOfMonth() + "/" + data.getMonthValue() + "/" + data.getYear();
 	}
 

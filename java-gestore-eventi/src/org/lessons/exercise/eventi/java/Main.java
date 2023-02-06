@@ -1,68 +1,24 @@
 package org.lessons.exercise.eventi.java;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Scanner;
+import java.time.LocalTime;
 
 public class Main {
 	public static void main(String[] args) {
 
-		Scanner sc = new Scanner(System.in);
-
-		System.out.print("Inserire nome evento: ");
-		String titolo = sc.next();
-
-		System.out.print("Inserire la data dell'evento (aaaa-mm-gg): ");
-		String dataStr = sc.next();
-		LocalDate data = LocalDate.parse(dataStr);
-
-		System.out.print("Inserire numero posti totale: ");
-		int postiTotale = sc.nextInt();
-
-		Evento ev1 = null;
+		Concerto c = null;
 		try {
-			ev1 = new Evento(titolo, data, postiTotale);
+			c = new Concerto("Travis Scott", LocalDate.parse("2023-06-30"), 500, LocalTime.parse("17:30"),
+					BigDecimal.valueOf(90));
+			for (int i = 0; i < 300; i++) {
+				c.prenota();
+			}
+
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			System.out.println(ev1 == null ? "Non è stato possibile creare l'evento" : ev1);
+			System.err.println(e.getMessage());
 		}
 
-		System.out.println("-------------------\nVuoi effettuare prenotazioni? ");
-		boolean check = sc.nextBoolean();
-		if (check) {
-			System.out.println("Quante prenotazioni vuoi effettuare? ");
-			int numeroPrenotazioni = sc.nextInt();
-
-			for (int i = 0; i < numeroPrenotazioni; i++) {
-				try {
-					ev1.prenota();
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-			}
-
-			System.out.println("Posti prenotati: " + ev1.getPostiPrenotati() + "\nPosti disponibili: "
-					+ (ev1.getPostiTotale() - ev1.getPostiPrenotati()));
-		}
-
-		System.out.println("-------------------\nVuoi disdire prenotazioni? ");
-		boolean checkD = sc.nextBoolean();
-		if (checkD) {
-			System.out.println("Quante disdette vuoi effettuare? ");
-			int numeroDisdette = sc.nextInt();
-
-			for (int i = 0; i < numeroDisdette; i++) {
-				try {
-					ev1.disdici();
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
-			}
-
-			System.out.println("Posti prenotati: " + ev1.getPostiPrenotati() + "\nPosti disponibili: "
-					+ (ev1.getPostiTotale() - ev1.getPostiPrenotati()));
-		}
-
-		sc.close();
+		System.out.println(c);
 	}
 }
